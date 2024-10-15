@@ -48,10 +48,10 @@ export function getOptionsFromLivePage(data: string, chatType?: boolean): FetchO
   if (continuationResult) {
     const list = Array.from(continuationResult)
     if (chatType) {
-      /** すべてのチャットの取得時に利用するcontinuation */
+      /** CONTINUATION to be used when retrieving all chats. */
       continuation = list[2][1]
     } else {
-      /** トップチャットの取得時に利用するcontinuation */
+      /** CONTINUATION to be used when retrieving the top chat. */
       continuation = list[1][1]
     }
   } else {
@@ -66,7 +66,7 @@ export function getOptionsFromLivePage(data: string, chatType?: boolean): FetchO
   }
 }
 
-/** get_live_chat レスポンスを変換 */
+/** Convert get_live_chat response */
 export function parseChatData(data: GetLiveChatResponse): [ChatItem[], string] {
   let chatItems: ChatItem[] = []
   if (data.continuationContents.liveChatContinuation.actions) {
@@ -86,7 +86,7 @@ export function parseChatData(data: GetLiveChatResponse): [ChatItem[], string] {
   return [chatItems, continuation]
 }
 
-/** サムネイルオブジェクトをImageItemへ変換 */
+/** Converting a Thumbnail object to an ImageItem. */
 function parseThumbnailToImageItem(data: Thumbnail[], alt: string): ImageItem {
   const thumbnail = data.pop()
   if (thumbnail) {
@@ -106,7 +106,7 @@ function convertColorToHex6(colorNum: number) {
   return `#${colorNum.toString(16).slice(2).toLocaleUpperCase()}`
 }
 
-/** メッセージrun配列をMessageItem配列へ変換 */
+/** Convert messagerun array to MessageItem array. */
 function parseMessages(runs: MessageRun[]): MessageItem[] {
   return runs.map((run: MessageRun): MessageItem => {
     if ("text" in run) {
@@ -132,7 +132,7 @@ interface LiveChatMembershipGiftRenderer extends LiveChatSponsorshipsHeaderRende
   authorExternalChannelId: string
 }
 
-/** actionの種類を判別してRendererを返す */
+/** Determines the type of action and returns a Renderer. */
 function rendererFromAction(
   action: Action
 ):
@@ -169,7 +169,7 @@ function rendererFromAction(
   return null
 }
 
-/** an action to a ChatItem */
+/** An action to a ChatItem */
 function parseActionToChatItem(data: Action): ChatItem | null {
   const messageRenderer = rendererFromAction(data)
   if (messageRenderer === null) {

@@ -1,6 +1,6 @@
-/** 整形後の型 */
+/** Post-opening moulds. */
 
-/** 取得したチャット詳細 */
+/** Acquired chat details. */
 export interface ChatItem {
   id: string
   author: {
@@ -29,10 +29,10 @@ export interface ChatItem {
   timestamp: Date
 }
 
-/** チャットメッセージの文字列or絵文字 */
+/** Chat message strings or pictograms */
 export type MessageItem = { text: string } | EmojiItem
 
-/** 画像 */
+/** Image */
 export interface ImageItem {
   url: string
   alt: string

@@ -1,4 +1,4 @@
-/** APIレスポンスの型 */
+/** API response type */
 
 /** get_live_chat Response */
 export interface GetLiveChatResponse {

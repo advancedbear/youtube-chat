@@ -12,11 +12,11 @@ type LiveChatEvents = {
 }
 
 /**
- * YouTubeライブチャット取得イベント
+ * YouTube live chat acquisition event
  */
 export class LiveChat extends (EventEmitter as new () => TypedEmitter<LiveChatEvents>) {
   liveId?: string
-  #observer?: NodeJS.Timeout  // Correct the type here
+  #observer?: NodeJS.Timeout
   #options?: FetchOptions
   readonly #interval: number = 1000
   readonly #id: YoutubeId

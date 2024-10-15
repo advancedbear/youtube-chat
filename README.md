@@ -77,26 +77,30 @@
 ### ChatItem
 ```typescript
 interface ChatItem {
-   author: {
-      name: string
-      thumbnail?: ImageItem
-      channelId: string
-      badge?: {
-         thumbnail: ImageItem
-         label: string
-      }
-   }
-   message: MessageItem[]
-   superchat?: {
-      amount: string
-      color: string
-      sticker?: ImageItem
-   }
-   isMembership: boolean
-   isVerified: boolean
-   isOwner: boolean
-   isModerator: boolean
-   timestamp: Date
+  author: {
+    name: string
+    thumbnail?: ImageItem
+    channelId: string
+    badge?: {
+      thumbnail: ImageItem
+      label: string
+    }
+  }
+  message: MessageItem[]
+  superchat?: {
+    amount: string
+    color: string
+    sticker?: ImageItem
+  }
+  membershipGift?: {
+    message: MessageItem[]
+    image?: ImageItem
+  }
+  isMembership: boolean
+  isVerified: boolean
+  isOwner: boolean
+  isModerator: boolean
+  timestamp: Date
 }
 ```
 
