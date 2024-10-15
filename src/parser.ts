@@ -6,6 +6,7 @@ import {
   LiveChatMembershipMilestoneRenderer,
   LiveChatPaidMessageRenderer,
   LiveChatPaidStickerRenderer,
+  LiveChatSponsorshipsHeaderRenderer,
   LiveChatTextMessageRenderer,
   MessageRun,
   Thumbnail,
@@ -125,6 +126,12 @@ function parseMessages(runs: MessageRun[]): MessageItem[] {
   })
 }
 
+interface LiveChatMembershipGiftRenderer extends LiveChatSponsorshipsHeaderRenderer {
+  id: string
+  timestampUsec: string
+  authorExternalChannelId: string
+}
+
 /** actionの種類を判別してRendererを返す */
 function rendererFromAction(
   action: Action
@@ -133,6 +140,7 @@ function rendererFromAction(
   | LiveChatPaidMessageRenderer
   | LiveChatPaidStickerRenderer
   | LiveChatMembershipItemRenderer
+  | LiveChatMembershipGiftRenderer
   | LiveChatMembershipMilestoneRenderer
   | null {
   if (!action.addChatItemAction) {
@@ -147,6 +155,14 @@ function rendererFromAction(
     return item.liveChatPaidStickerRenderer
   } else if (item.liveChatMembershipItemRenderer) {
     return item.liveChatMembershipItemRenderer
+  } else if (item.liveChatSponsorshipsGiftPurchaseAnnouncementRenderer) {
+    const parentRenderer = item.liveChatSponsorshipsGiftPurchaseAnnouncementRenderer
+    return {
+      id: parentRenderer.id,
+      timestampUsec: parentRenderer.timestampUsec,
+      authorExternalChannelId: parentRenderer.authorExternalChannelId,
+      ...parentRenderer.header.liveChatSponsorshipsHeaderRenderer,
+    }
   } else if (item.LiveChatMembershipMilestoneRenderer) {
     return item.LiveChatMembershipMilestoneRenderer
   }
@@ -222,6 +238,20 @@ function parseActionToChatItem(data: Action): ChatItem | null {
     ret.superchat = {
       amount: messageRenderer.purchaseAmountText.simpleText,
       color: convertColorToHex6(messageRenderer.bodyBackgroundColor),
+    }
+  } else if (
+    data.addChatItemAction?.item.liveChatSponsorshipsGiftPurchaseAnnouncementRenderer &&
+    "primaryText" in messageRenderer &&
+    messageRenderer.primaryText.runs
+  ) {
+    ret.membershipGift = {
+      message: parseMessages(messageRenderer.primaryText.runs),
+    }
+    if (messageRenderer.image?.thumbnails?.[0]) {
+      ret.membershipGift.image = {
+        ...messageRenderer.image.thumbnails[0],
+        alt: "",
+      }
     }
   }
 
