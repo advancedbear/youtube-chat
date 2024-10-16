@@ -43,18 +43,20 @@ export function getOptionsFromLivePage(data: string, chatType?: boolean): FetchO
     throw new Error("Client Version was not found")
   }
 
-  let continuation: string
+  let continuation: string | undefined
   const continuationResult = data.matchAll(/['"]continuation['"]:\s*['"](.+?)['"]/g)
-  if (continuationResult) {
-    const list = Array.from(continuationResult)
-    if (chatType) {
-      /** CONTINUATION to be used when retrieving all chats. */
-      continuation = list[2][1]
-    } else {
-      /** CONTINUATION to be used when retrieving the top chat. */
-      continuation = list[1][1]
-    }
-  } else {
+  const list = Array.from(continuationResult)
+
+  // Ensure that the required index exists before accessing it
+  if (chatType && list.length > 2 && list[2]?.[1]) {
+    /** CONTINUATION to be used when retrieving all chats. */
+    continuation = list[2][1]
+  } else if (list.length > 1 && list[1]?.[1]) {
+    /** CONTINUATION to be used when retrieving the top chat. */
+    continuation = list[1][1]
+  }
+
+  if (!continuation) {
     throw new Error("Continuation was not found")
   }
 
