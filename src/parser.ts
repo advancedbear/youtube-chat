@@ -10,8 +10,8 @@ import {
   LiveChatTextMessageRenderer,
   MessageRun,
   Thumbnail,
-} from "./types/yt-response"
-import { ChatItem, ImageItem, MessageItem } from "./types/data"
+} from "./types/yt-response.js"
+import { ChatItem, ImageItem, MessageItem } from "./types/data.js"
 
 export function getOptionsFromLivePage(data: string, chatType?: boolean): FetchOptions & { liveId: string } {
   let liveId: string
