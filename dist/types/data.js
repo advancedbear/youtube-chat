@@ -1,4 +1,3 @@
-"use strict";
 /** Post-opening moulds. */
-Object.defineProperty(exports, "__esModule", { value: true });
+export {};
 //# sourceMappingURL=data.js.map

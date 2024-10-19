@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseChatData = exports.getOptionsFromLivePage = void 0;
-function getOptionsFromLivePage(data, chatType) {
+export function getOptionsFromLivePage(data, chatType) {
     var _a, _b;
     let liveId;
     const idResult = data.match(/<link rel="canonical" href="https:\/\/www.youtube.com\/watch\?v=(.+?)">/);
@@ -53,9 +50,8 @@ function getOptionsFromLivePage(data, chatType) {
         continuation,
     };
 }
-exports.getOptionsFromLivePage = getOptionsFromLivePage;
 /** Convert get_live_chat response */
-function parseChatData(data) {
+export function parseChatData(data) {
     let chatItems = [];
     if (data.continuationContents.liveChatContinuation.actions) {
         chatItems = data.continuationContents.liveChatContinuation.actions
@@ -72,7 +68,6 @@ function parseChatData(data) {
     }
     return [chatItems, continuation];
 }
-exports.parseChatData = parseChatData;
 /** Converting a Thumbnail object to an ImageItem. */
 function parseThumbnailToImageItem(data, alt) {
     const thumbnail = data.pop();
@@ -195,6 +190,11 @@ function parseActionToChatItem(data) {
                 }
             }
         }
+    }
+    /** For getting the correct amount of months on membership renew */
+    if ("headerPrimaryText" in messageRenderer) {
+        const primaryText = messageRenderer.headerPrimaryText.runs;
+        ret.primaryText = parseMessages(primaryText);
     }
     if ("sticker" in messageRenderer) {
         ret.superchat = {

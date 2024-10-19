@@ -1,5 +1,5 @@
-import { FetchOptions, GetLiveChatResponse } from "./types/yt-response";
-import { ChatItem } from "./types/data";
+import { FetchOptions, GetLiveChatResponse } from "./types/yt-response.js";
+import { ChatItem } from "./types/data.js";
 export declare function getOptionsFromLivePage(data: string, chatType?: boolean): FetchOptions & {
     liveId: string;
 };

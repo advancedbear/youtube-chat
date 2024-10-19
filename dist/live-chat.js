@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -20,14 +19,12 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _LiveChat_instances, _LiveChat_observer, _LiveChat_options, _LiveChat_interval, _LiveChat_id, _LiveChat_chatType, _LiveChat_execute;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LiveChat = void 0;
-const events_1 = require("events");
-const requests_1 = require("./requests");
+import { EventEmitter } from "node:events";
+import { fetchChat, fetchLivePage } from "./requests.js";
 /**
  * YouTube live chat acquisition event
  */
-class LiveChat extends events_1.EventEmitter {
+export class LiveChat extends EventEmitter {
     constructor(id, chatType = false, interval = 1000) {
         super();
         _LiveChat_instances.add(this);
@@ -49,7 +46,7 @@ class LiveChat extends events_1.EventEmitter {
     start() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const options = yield (0, requests_1.fetchLivePage)(__classPrivateFieldGet(this, _LiveChat_id, "f"), __classPrivateFieldGet(this, _LiveChat_chatType, "f"));
+                const options = yield fetchLivePage(__classPrivateFieldGet(this, _LiveChat_id, "f"), __classPrivateFieldGet(this, _LiveChat_chatType, "f"));
                 if (__classPrivateFieldGet(this, _LiveChat_observer, "f") && this.liveId == options.liveId) {
                     return false;
                 }
@@ -76,7 +73,6 @@ class LiveChat extends events_1.EventEmitter {
         }
     }
 }
-exports.LiveChat = LiveChat;
 _LiveChat_observer = new WeakMap(), _LiveChat_options = new WeakMap(), _LiveChat_interval = new WeakMap(), _LiveChat_id = new WeakMap(), _LiveChat_chatType = new WeakMap(), _LiveChat_instances = new WeakSet(), _LiveChat_execute = function _LiveChat_execute() {
     return __awaiter(this, void 0, void 0, function* () {
         if (!__classPrivateFieldGet(this, _LiveChat_options, "f")) {
@@ -86,7 +82,7 @@ _LiveChat_observer = new WeakMap(), _LiveChat_options = new WeakMap(), _LiveChat
             return;
         }
         try {
-            const [chatItems, continuation] = yield (0, requests_1.fetchChat)(__classPrivateFieldGet(this, _LiveChat_options, "f"));
+            const [chatItems, continuation] = yield fetchChat(__classPrivateFieldGet(this, _LiveChat_options, "f"));
             chatItems.forEach((chatItem) => this.emit("chat", chatItem));
             __classPrivateFieldGet(this, _LiveChat_options, "f").continuation = continuation;
         }

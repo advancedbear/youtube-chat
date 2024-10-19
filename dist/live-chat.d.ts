@@ -1,5 +1,5 @@
 import TypedEmitter from "typed-emitter";
-import { ChatItem, YoutubeId } from "./types/data";
+import { ChatItem, YoutubeId } from "./types/data.js";
 type LiveChatEvents = {
     start: (liveId: string) => void;
     end: (reason?: string) => void;

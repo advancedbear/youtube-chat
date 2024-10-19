@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,18 +7,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchLivePage = exports.fetchChat = void 0;
-const axios_1 = __importDefault(require("axios"));
-const parser_1 = require("./parser");
-axios_1.default.defaults.headers.common["Accept-Encoding"] = "utf-8";
-function fetchChat(options) {
+import axios from "axios";
+import { parseChatData, getOptionsFromLivePage } from "./parser.js";
+axios.defaults.headers.common["Accept-Encoding"] = "utf-8";
+export function fetchChat(options) {
     return __awaiter(this, void 0, void 0, function* () {
         const url = `https://www.youtube.com/youtubei/v1/live_chat/get_live_chat?key=${options.apiKey}`;
-        const res = yield axios_1.default.post(url, {
+        const res = yield axios.post(url, {
             context: {
                 client: {
                     clientVersion: options.clientVersion,
@@ -28,21 +22,19 @@ function fetchChat(options) {
             },
             continuation: options.continuation,
         });
-        return (0, parser_1.parseChatData)(res.data);
+        return parseChatData(res.data);
     });
 }
-exports.fetchChat = fetchChat;
-function fetchLivePage(id, chatType) {
+export function fetchLivePage(id, chatType) {
     return __awaiter(this, void 0, void 0, function* () {
         const url = generateLiveUrl(id);
         if (!url) {
             throw TypeError("not found id");
         }
-        const res = yield axios_1.default.get(url);
-        return (0, parser_1.getOptionsFromLivePage)(res.data.toString(), chatType);
+        const res = yield axios.get(url);
+        return getOptionsFromLivePage(res.data.toString(), chatType);
     });
 }
-exports.fetchLivePage = fetchLivePage;
 function generateLiveUrl(id) {
     if ("channelId" in id) {
         return `https://www.youtube.com/channel/${id.channelId}/live`;

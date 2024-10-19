@@ -1,4 +1,3 @@
-"use strict";
 /** API response type */
-Object.defineProperty(exports, "__esModule", { value: true });
+export {};
 //# sourceMappingURL=yt-response.js.map

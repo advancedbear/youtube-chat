@@ -1,2 +1,2 @@
-import { LiveChat } from "./live-chat";
+import { LiveChat } from "./live-chat.js";
 export { LiveChat };
