@@ -12,7 +12,6 @@ import {
   Thumbnail,
 } from "./types/yt-response.js"
 import { ChatItem, ImageItem, MessageItem } from "./types/data.js"
-
 export function getOptionsFromLivePage(data: string, chatType?: boolean): FetchOptions & { liveId: string } {
   let liveId: string
   const idResult = data.match(/<link rel="canonical" href="https:\/\/www.youtube.com\/watch\?v=(.+?)">/)
@@ -174,9 +173,11 @@ function rendererFromAction(
 /** An action to a ChatItem */
 function parseActionToChatItem(data: Action): ChatItem | null {
   const messageRenderer = rendererFromAction(data)
+
   if (messageRenderer === null) {
     return null
   }
+
   let message: MessageRun[] = []
   if ("message" in messageRenderer) {
     message = messageRenderer.message.runs
@@ -225,6 +226,13 @@ function parseActionToChatItem(data: Action): ChatItem | null {
         }
       }
     }
+  }
+
+  /** For getting the correct amount of months on membership renew */
+  if ("headerPrimaryText" in messageRenderer) {
+    const primaryText = messageRenderer.headerPrimaryText.runs
+
+    ret.primaryText = parseMessages(primaryText) 
   }
 
   if ("sticker" in messageRenderer) {
