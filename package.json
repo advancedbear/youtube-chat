@@ -1,6 +1,6 @@
 {
   "name": "youtube-chat",
-  "version": "2.3.0",
+  "version": "2.3.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/ponkhy/youtube-chat.git",

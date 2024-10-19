@@ -13,6 +13,7 @@ export interface ChatItem {
     }
   }
   message: MessageItem[]
+  primaryText?: MessageItem[]
   superchat?: {
     amount: string
     color: string

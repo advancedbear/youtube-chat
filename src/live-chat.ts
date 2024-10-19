@@ -1,8 +1,8 @@
-import { EventEmitter } from "events"
+import { EventEmitter } from "node:events"
 import TypedEmitter from "typed-emitter"
-import { ChatItem, YoutubeId } from "./types/data"
-import { FetchOptions } from "./types/yt-response"
-import { fetchChat, fetchLivePage } from "./requests"
+import { ChatItem, YoutubeId } from "./types/data.js"
+import { FetchOptions } from "./types/yt-response.js"
+import { fetchChat, fetchLivePage } from "./requests.js"
 
 type LiveChatEvents = {
   start: (liveId: string) => void
