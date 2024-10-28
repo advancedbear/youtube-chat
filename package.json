@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "youtube-chat",
   "version": "2.3.3",
   "main": "dist/index.js",
