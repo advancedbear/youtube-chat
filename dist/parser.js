@@ -203,6 +203,7 @@ function parseActionToChatItem(data) {
             }
         }
     }
+    /** For getting the correct amount of months on membership renew */
     if ("headerPrimaryText" in messageRenderer) {
         const primaryText = messageRenderer.headerPrimaryText.runs;
         ret.primaryText = parseMessages(primaryText);
