@@ -34,6 +34,7 @@ export interface Continuation {
 export interface Action {
   addChatItemAction?: AddChatItemAction
   addLiveChatTickerItemAction?: object
+  removeChatItemAction?: RemoveChatItemAction
 }
 
 export interface Thumbnail {
@@ -220,6 +221,11 @@ export interface AddChatItemAction {
     liveChatViewerEngagementMessageRenderer?: object
   }
   clientId: string
+}
+
+export interface RemoveChatItemAction {
+  type: "REMOVE"
+  targetItemId: string
 }
 
 /** Options for get_live_chat */

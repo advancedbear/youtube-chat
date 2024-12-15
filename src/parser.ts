@@ -10,6 +10,7 @@ import {
   LiveChatTextMessageRenderer,
   MessageRun,
   Thumbnail,
+  RemoveChatItemAction,
 } from "./types/yt-response.js"
 import { ChatItem, ImageItem, MessageItem } from "./types/data.js"
 export function getOptionsFromLivePage(data: string, chatType?: boolean): FetchOptions & { liveId: string } {
@@ -143,8 +144,14 @@ function rendererFromAction(
   | LiveChatMembershipItemRenderer
   | LiveChatMembershipGiftRenderer
   | LiveChatMembershipMilestoneRenderer
+  | RemoveChatItemAction
   | null {
-  if (!action.addChatItemAction) {
+  if (action.removeChatItemAction) {
+    return {
+      type: "REMOVE",
+      targetItemId: action.removeChatItemAction.targetItemId
+    }
+  } else if(!action.addChatItemAction) {
     return null
   }
   const item = action.addChatItemAction.item
@@ -171,10 +178,18 @@ function rendererFromAction(
 }
 
 /** An action to a ChatItem */
-function parseActionToChatItem(data: Action): ChatItem | null {
-  const messageRenderer = rendererFromAction(data)
+function parseActionToChatItem(data: Action): ChatItem | RemoveChatItemAction | null {
+  const messageRenderer = rendererFromAction(data);
 
   if (messageRenderer === null) {
+    return null
+  }
+
+  if ("type" in messageRenderer && messageRenderer.type === "REMOVE") {
+    return messageRenderer
+  }
+
+  if (!("id" in messageRenderer)) {
     return null
   }
 

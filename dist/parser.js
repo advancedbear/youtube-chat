@@ -109,7 +109,13 @@ function parseMessages(runs) {
 }
 /** Determines the type of action and returns a Renderer. */
 function rendererFromAction(action) {
-    if (!action.addChatItemAction) {
+    if (action.removeChatItemAction) {
+        return {
+            type: "REMOVE",
+            targetItemId: action.removeChatItemAction.targetItemId
+        };
+    }
+    else if (!action.addChatItemAction) {
         return null;
     }
     const item = action.addChatItemAction.item;
@@ -139,6 +145,12 @@ function parseActionToChatItem(data) {
     var _a, _b, _c, _d, _e, _f;
     const messageRenderer = rendererFromAction(data);
     if (messageRenderer === null) {
+        return null;
+    }
+    if ("type" in messageRenderer && messageRenderer.type === "REMOVE") {
+        return messageRenderer;
+    }
+    if (!("id" in messageRenderer)) {
         return null;
     }
     let message = [];
@@ -191,7 +203,6 @@ function parseActionToChatItem(data) {
             }
         }
     }
-    /** For getting the correct amount of months on membership renew */
     if ("headerPrimaryText" in messageRenderer) {
         const primaryText = messageRenderer.headerPrimaryText.runs;
         ret.primaryText = parseMessages(primaryText);

@@ -122,6 +122,15 @@ interface EmojiItem extends ImageItem {
 }
 ```
 
+### RemoveChatItemAction
+
+```typescript
+interface RemoveChatItemAction {
+  type: "REMOVE"
+  targetItemId: string
+}
+```
+
 ## References
 - https://drroot.page/wp/?p=227
 - https://github.com/taizan-hokuto/pytchat
