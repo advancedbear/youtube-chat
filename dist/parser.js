@@ -12,6 +12,10 @@ export function getOptionsFromLivePage(data, chatType) {
     if (replayResult) {
         throw new Error(`${liveId} is finished live`);
     }
+    const liveChatResult = data.match(/['"]liveChatRenderer['"]\s*:/);
+    if (!liveChatResult) {
+        throw new Error("Live chat was not found");
+    }
     let apiKey;
     const keyResult = data.match(/['"]INNERTUBE_API_KEY['"]:\s*['"](.+?)['"]/);
     if (keyResult) {
@@ -112,7 +116,7 @@ function rendererFromAction(action) {
     if (action.removeChatItemAction) {
         return {
             type: "REMOVE",
-            targetItemId: action.removeChatItemAction.targetItemId
+            targetItemId: action.removeChatItemAction.targetItemId,
         };
     }
     else if (!action.addChatItemAction) {
