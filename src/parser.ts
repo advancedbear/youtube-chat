@@ -27,6 +27,11 @@ export function getOptionsFromLivePage(data: string, chatType?: boolean): FetchO
     throw new Error(`${liveId} is finished live`)
   }
 
+  const liveChatResult = data.match(/['"]liveChatRenderer['"]\s*:/)
+  if (!liveChatResult) {
+    throw new Error("Live chat was not found")
+  }
+
   let apiKey: string
   const keyResult = data.match(/['"]INNERTUBE_API_KEY['"]:\s*['"](.+?)['"]/)
   if (keyResult) {
@@ -149,9 +154,9 @@ function rendererFromAction(
   if (action.removeChatItemAction) {
     return {
       type: "REMOVE",
-      targetItemId: action.removeChatItemAction.targetItemId
+      targetItemId: action.removeChatItemAction.targetItemId,
     }
-  } else if(!action.addChatItemAction) {
+  } else if (!action.addChatItemAction) {
     return null
   }
   const item = action.addChatItemAction.item
@@ -179,7 +184,7 @@ function rendererFromAction(
 
 /** An action to a ChatItem */
 function parseActionToChatItem(data: Action): ChatItem | RemoveChatItemAction | null {
-  const messageRenderer = rendererFromAction(data);
+  const messageRenderer = rendererFromAction(data)
 
   if (messageRenderer === null) {
     return null
@@ -247,7 +252,7 @@ function parseActionToChatItem(data: Action): ChatItem | RemoveChatItemAction | 
   if ("headerPrimaryText" in messageRenderer) {
     const primaryText = messageRenderer.headerPrimaryText.runs
 
-    ret.primaryText = parseMessages(primaryText) 
+    ret.primaryText = parseMessages(primaryText)
   }
 
   if ("sticker" in messageRenderer) {
