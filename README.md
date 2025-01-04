@@ -131,6 +131,15 @@ interface RemoveChatItemAction {
 }
 ```
 
+### TimeoutChatItemAction
+
+```typescript
+interface TimeoutChatItemAction {
+  type: "TIMEOUT"
+  externalChannelId: string
+}
+```
+
 ## References
 - https://drroot.page/wp/?p=227
 - https://github.com/taizan-hokuto/pytchat

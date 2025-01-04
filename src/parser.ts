@@ -11,6 +11,7 @@ import {
   MessageRun,
   Thumbnail,
   RemoveChatItemAction,
+  TimeoutChatItemAction,
 } from "./types/yt-response.js"
 import { ChatItem, ImageItem, MessageItem } from "./types/data.js"
 export function getOptionsFromLivePage(data: string, chatType?: boolean): FetchOptions & { liveId: string } {
@@ -150,11 +151,17 @@ function rendererFromAction(
   | LiveChatMembershipGiftRenderer
   | LiveChatMembershipMilestoneRenderer
   | RemoveChatItemAction
+  | TimeoutChatItemAction
   | null {
   if (action.removeChatItemAction) {
     return {
       type: "REMOVE",
       targetItemId: action.removeChatItemAction.targetItemId,
+    }
+  } else if (action.removeChatItemByAuthorAction) {
+    return {
+      type: "TIMEOUT",
+      externalChannelId: action.removeChatItemByAuthorAction.externalChannelId,
     }
   } else if (!action.addChatItemAction) {
     return null
@@ -182,15 +189,37 @@ function rendererFromAction(
   return null
 }
 
+function isRemoveAction(renderer: unknown): renderer is RemoveChatItemAction {
+  return (
+    typeof renderer === "object" &&
+    renderer !== null &&
+    "type" in renderer &&
+    (renderer as RemoveChatItemAction).type === "REMOVE"
+  )
+}
+
+function isTimeoutAction(renderer: unknown): renderer is TimeoutChatItemAction {
+  return (
+    typeof renderer === "object" &&
+    renderer !== null &&
+    "type" in renderer &&
+    (renderer as TimeoutChatItemAction).type === "TIMEOUT"
+  )
+}
+
 /** An action to a ChatItem */
-function parseActionToChatItem(data: Action): ChatItem | RemoveChatItemAction | null {
+function parseActionToChatItem(data: Action): ChatItem | RemoveChatItemAction | TimeoutChatItemAction | null {
   const messageRenderer = rendererFromAction(data)
 
   if (messageRenderer === null) {
     return null
   }
 
-  if ("type" in messageRenderer && messageRenderer.type === "REMOVE") {
+  if (isRemoveAction(messageRenderer)) {
+    return messageRenderer
+  }
+
+  if (isTimeoutAction(messageRenderer)) {
     return messageRenderer
   }
 
