@@ -119,6 +119,12 @@ function rendererFromAction(action) {
             targetItemId: action.removeChatItemAction.targetItemId,
         };
     }
+    else if (action.removeChatItemByAuthorAction) {
+        return {
+            type: "TIMEOUT",
+            externalChannelId: action.removeChatItemByAuthorAction.externalChannelId,
+        };
+    }
     else if (!action.addChatItemAction) {
         return null;
     }
@@ -144,6 +150,18 @@ function rendererFromAction(action) {
     }
     return null;
 }
+function isRemoveAction(renderer) {
+    return (typeof renderer === "object" &&
+        renderer !== null &&
+        "type" in renderer &&
+        renderer.type === "REMOVE");
+}
+function isTimeoutAction(renderer) {
+    return (typeof renderer === "object" &&
+        renderer !== null &&
+        "type" in renderer &&
+        renderer.type === "TIMEOUT");
+}
 /** An action to a ChatItem */
 function parseActionToChatItem(data) {
     var _a, _b, _c, _d, _e, _f;
@@ -151,7 +169,10 @@ function parseActionToChatItem(data) {
     if (messageRenderer === null) {
         return null;
     }
-    if ("type" in messageRenderer && messageRenderer.type === "REMOVE") {
+    if (isRemoveAction(messageRenderer)) {
+        return messageRenderer;
+    }
+    if (isTimeoutAction(messageRenderer)) {
         return messageRenderer;
     }
     if (!("id" in messageRenderer)) {

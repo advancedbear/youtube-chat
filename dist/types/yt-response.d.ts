@@ -32,6 +32,7 @@ export interface Action {
     addChatItemAction?: AddChatItemAction;
     addLiveChatTickerItemAction?: object;
     removeChatItemAction?: RemoveChatItemAction;
+    removeChatItemByAuthorAction?: TimeoutChatItemAction;
 }
 export interface Thumbnail {
     url: string;
@@ -210,6 +211,10 @@ export interface AddChatItemAction {
 export interface RemoveChatItemAction {
     type: "REMOVE";
     targetItemId: string;
+}
+export interface TimeoutChatItemAction {
+    type: "TIMEOUT";
+    externalChannelId: string;
 }
 /** Options for get_live_chat */
 export interface FetchOptions {
