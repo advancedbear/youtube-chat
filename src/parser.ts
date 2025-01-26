@@ -183,6 +183,8 @@ function rendererFromAction(
       authorExternalChannelId: parentRenderer.authorExternalChannelId,
       ...parentRenderer.header.liveChatSponsorshipsHeaderRenderer,
     }
+  } else if (item.liveChatSponsorshipsGiftRedemptionAnnouncementRenderer) {
+    return item.liveChatSponsorshipsGiftRedemptionAnnouncementRenderer
   } else if (item.LiveChatMembershipMilestoneRenderer) {
     return item.LiveChatMembershipMilestoneRenderer
   }
