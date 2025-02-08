@@ -1,8 +1,8 @@
-import { EventEmitter } from "events"
+import { EventEmitter } from "node:events"
 import TypedEmitter from "typed-emitter"
-import { ChatItem, YoutubeId } from "./types/data"
-import { FetchOptions } from "./types/yt-response"
-import { fetchChat, fetchLivePage } from "./requests"
+import { ChatItem, YoutubeId } from "./types/data.js"
+import { FetchOptions } from "./types/yt-response.js"
+import { fetchChat, fetchLivePage } from "./requests.js"
 
 type LiveChatEvents = {
   start: (liveId: string) => void
@@ -12,11 +12,11 @@ type LiveChatEvents = {
 }
 
 /**
- * YouTubeライブチャット取得イベント
+ * YouTube live chat acquisition event
  */
 export class LiveChat extends (EventEmitter as new () => TypedEmitter<LiveChatEvents>) {
   liveId?: string
-  #observer?: NodeJS.Timer
+  #observer?: NodeJS.Timeout
   #options?: FetchOptions
   readonly #interval: number = 1000
   readonly #id: YoutubeId
@@ -82,3 +82,4 @@ export class LiveChat extends (EventEmitter as new () => TypedEmitter<LiveChatEv
     }
   }
 }
+

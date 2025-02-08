@@ -1,7 +1,7 @@
 import axios from "axios"
-import { parseChatData, getOptionsFromLivePage } from "./parser"
-import { FetchOptions } from "./types/yt-response"
-import { ChatItem, YoutubeId } from "./types/data"
+import { parseChatData, getOptionsFromLivePage } from "./parser.js"
+import { FetchOptions } from "./types/yt-response.js"
+import { ChatItem, YoutubeId } from "./types/data.js"
 
 axios.defaults.headers.common["Accept-Encoding"] = "utf-8"
 

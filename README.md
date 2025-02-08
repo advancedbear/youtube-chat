@@ -1,8 +1,4 @@
 # youtube-chat
-[![npm version](https://badge.fury.io/js/youtube-chat.svg)](https://badge.fury.io/js/youtube-chat)
-![npm](https://img.shields.io/npm/dt/youtube-chat)
-![NPM](https://img.shields.io/npm/l/youtube-chat)
-[![CI](https://github.com/LinaTsukusu/youtube-chat/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/LinaTsukusu/youtube-chat/actions/workflows/ci.yml)
 
 > Fetch YouTube live chat without API
 
@@ -10,8 +6,8 @@
 
 ## Getting started
 1. Install
-    - `npm i youtube-chat`
-    - `yarn add youtube-chat`
+    - `npm i https://github.com/Ponkhy/youtube-chat.git#dist`
+    - `yarn add https://github.com/Ponkhy/youtube-chat.git#dist`
 2. Import
     - Javascript
     ```javascript
@@ -25,13 +21,21 @@
     ```javascript
     // If channelId is specified, liveId in the current stream is automatically acquired.
     // Recommended
-    const liveChat = new LiveChat({channelId: "CHANNEL_ID_HERE"})
+    const liveChat = new LiveChat({ channelId: "CHANNEL_ID_HERE" })
     
     // Or specify LiveID in Stream manually.
+<<<<<<< HEAD
     const liveChat = new LiveChat({liveId: "LIVE_ID_HERE"})
 
     // If the second argument is `true`, fetch "LiveChat" instead of "TopChat".
     const liveChat = new LiveChat({handle: "HANDLE_NAME_HERE"}, true)
+=======
+    const liveChat = new LiveChat({ liveId: "LIVE_ID_HERE" })
+    
+    // If the second argument is `true`, fetch "LiveChat" instead of "TopChat".
+    const liveChat = new LiveChat({ liveId: "LIVE_ID_HERE" }, true)
+    
+>>>>>>> ae2fd3e23c8ac5acef8c5ed38d604e1cb5b49fe7
     ```
 4. Add events
     ```typescript
@@ -76,26 +80,30 @@
 ### ChatItem
 ```typescript
 interface ChatItem {
-   author: {
-      name: string
-      thumbnail?: ImageItem
-      channelId: string
-      badge?: {
-         thumbnail: ImageItem
-         label: string
-      }
-   }
-   message: MessageItem[]
-   superchat?: {
-      amount: string
-      color: string
-      sticker?: ImageItem
-   }
-   isMembership: boolean
-   isVerified: boolean
-   isOwner: boolean
-   isModerator: boolean
-   timestamp: Date
+  author: {
+    name: string
+    thumbnail?: ImageItem
+    channelId: string
+    badge?: {
+      thumbnail: ImageItem
+      label: string
+    }
+  }
+  message: MessageItem[]
+  superchat?: {
+    amount: string
+    color: string
+    sticker?: ImageItem
+  }
+  membershipGift?: {
+    message: MessageItem[]
+    image?: ImageItem
+  }
+  isMembership: boolean
+  isVerified: boolean
+  isOwner: boolean
+  isModerator: boolean
+  timestamp: Date
 }
 ```
 
@@ -118,6 +126,24 @@ interface ImageItem {
 interface EmojiItem extends ImageItem {
   emojiText: string
   isCustomEmoji: boolean
+}
+```
+
+### RemoveChatItemAction
+
+```typescript
+interface RemoveChatItemAction {
+  type: "REMOVE"
+  targetItemId: string
+}
+```
+
+### TimeoutChatItemAction
+
+```typescript
+interface TimeoutChatItemAction {
+  type: "TIMEOUT"
+  externalChannelId: string
 }
 ```
 
