@@ -6,8 +6,8 @@
 
 ## Getting started
 1. Install
-    - `npm i https://github.com/Ponkhy/youtube-chat.git#dist`
-    - `yarn add https://github.com/Ponkhy/youtube-chat.git#dist`
+    - `npm i https://github.com/advancedbear/youtube-chat.git`
+    - `yarn add https://github.com/advancedbear/youtube-chat.git`
 2. Import
     - Javascript
     ```javascript
@@ -24,18 +24,11 @@
     const liveChat = new LiveChat({ channelId: "CHANNEL_ID_HERE" })
     
     // Or specify LiveID in Stream manually.
-<<<<<<< HEAD
-    const liveChat = new LiveChat({liveId: "LIVE_ID_HERE"})
-
-    // If the second argument is `true`, fetch "LiveChat" instead of "TopChat".
-    const liveChat = new LiveChat({handle: "HANDLE_NAME_HERE"}, true)
-=======
     const liveChat = new LiveChat({ liveId: "LIVE_ID_HERE" })
     
     // If the second argument is `true`, fetch "LiveChat" instead of "TopChat".
     const liveChat = new LiveChat({ liveId: "LIVE_ID_HERE" }, true)
     
->>>>>>> ae2fd3e23c8ac5acef8c5ed38d604e1cb5b49fe7
     ```
 4. Add events
     ```typescript
