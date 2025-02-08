@@ -114,8 +114,12 @@ function convertColorToHex6(colorNum: number) {
   return `#${colorNum.toString(16).slice(2).toLocaleUpperCase()}`
 }
 
-/** Convert messagerun array to MessageItem array. */
-function parseMessages(runs: MessageRun[]): MessageItem[] {
+/** メッセージrun配列をMessageItem配列へ変換 */
+function parseMessages(runs?: MessageRun[]): MessageItem[] {
+  if (!runs) {
+    return []
+  }
+
   return runs.map((run: MessageRun): MessageItem => {
     if ("text" in run) {
       return run
